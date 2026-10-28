@@ -39,7 +39,7 @@ import com.example.avjindersinghsekhon.minimaltodo.Reminder.ReminderFragment;
 import com.example.avjindersinghsekhon.minimaltodo.Settings.SettingsActivity;
 import com.example.avjindersinghsekhon.minimaltodo.Utility.ItemTouchHelperClass;
 import com.example.avjindersinghsekhon.minimaltodo.Utility.RecyclerViewEmptySupport;
-import com.example.avjindersinghsekhon.minimaltodo.Utility.StoreRetrieveData;
+import com.example.avjindersinghsekhon.minimaltodo.Utility.ToDoFileStore;
 import com.example.avjindersinghsekhon.minimaltodo.Utility.ToDoItem;
 import com.example.avjindersinghsekhon.minimaltodo.Utility.TodoNotificationService;
 
@@ -67,7 +67,7 @@ public class MainFragment extends AppDefaultFragment {
     public static final String DATE_TIME_FORMAT_12_HOUR = "MMM d, yyyy  h:mm a";
     public static final String DATE_TIME_FORMAT_24_HOUR = "MMM d, yyyy  k:mm";
     public static final String FILENAME = "todoitems.json";
-    private StoreRetrieveData storeRetrieveData;
+    private ToDoFileStore toDoFileStore;
     public ItemTouchHelper itemTouchHelper;
     private CustomRecyclerScrollViewListener customRecyclerScrollViewListener;
     public static final String SHARED_PREF_DATA_SET_CHANGED = "com.avjindersekhon.datasetchanged";
@@ -112,17 +112,17 @@ public class MainFragment extends AppDefaultFragment {
         editor.putBoolean(CHANGE_OCCURED, false);
         editor.apply();
 
-        storeRetrieveData = new StoreRetrieveData(getContext(), FILENAME);
-        mToDoItemsArrayList = getLocallyStoredData(storeRetrieveData);
+        toDoFileStore = new ToDoFileStore(getContext(), FILENAME);
+        mToDoItemsArrayList = getLocallyStoredData(toDoFileStore);
         adapter = new MainFragment.BasicListAdapter(mToDoItemsArrayList);
         setAlarms();
 
 
 //        adapter.notifyDataSetChanged();
-//        storeRetrieveData = new StoreRetrieveData(this, FILENAME);
+//        toDoFileStore = new ToDoFileStore(this, FILENAME);
 //
 //        try {
-//            mToDoItemsArrayList = storeRetrieveData.loadFromFile();
+//            mToDoItemsArrayList = toDoFileStore.loadFromFile();
 ////            Log.d("OskarSchindler", "Arraylist Length: "+mToDoItemsArrayList.size());
 //        } catch (IOException | JSONException e) {
 ////            Log.d("OskarSchindler", "IOException received");
@@ -222,11 +222,11 @@ public class MainFragment extends AppDefaultFragment {
 
     }
 
-    public static ArrayList<ToDoItem> getLocallyStoredData(StoreRetrieveData storeRetrieveData) {
+    public static ArrayList<ToDoItem> getLocallyStoredData(ToDoFileStore toDoFileStore) {
         ArrayList<ToDoItem> items = null;
 
         try {
-            items = storeRetrieveData.loadFromFile();
+            items = toDoFileStore.loadFromFile();
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -279,7 +279,7 @@ public class MainFragment extends AppDefaultFragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_DATA_SET_CHANGED, MODE_PRIVATE);
         if (sharedPreferences.getBoolean(CHANGE_OCCURED, false)) {
 
-            mToDoItemsArrayList = getLocallyStoredData(storeRetrieveData);
+            mToDoItemsArrayList = getLocallyStoredData(toDoFileStore);
             adapter = new MainFragment.BasicListAdapter(mToDoItemsArrayList);
             mRecyclerView.setAdapter(adapter);
             setAlarms();
@@ -602,7 +602,7 @@ public class MainFragment extends AppDefaultFragment {
 
     private void saveDate() {
         try {
-            storeRetrieveData.saveToFile(mToDoItemsArrayList);
+            toDoFileStore.saveToFile(mToDoItemsArrayList);
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
@@ -613,7 +613,7 @@ public class MainFragment extends AppDefaultFragment {
     public void onPause() {
         super.onPause();
         try {
-            storeRetrieveData.saveToFile(mToDoItemsArrayList);
+            toDoFileStore.saveToFile(mToDoItemsArrayList);
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
