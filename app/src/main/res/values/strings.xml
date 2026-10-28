@@ -25,6 +25,12 @@
         <item>30 Minutes</item>
         <item>1 Hour</item>
     </string-array>
+    <!-- Minutos de cada opção de snooze_options, na mesma ordem -->
+    <integer-array name="snooze_minutes">
+        <item>10</item>
+        <item>30</item>
+        <item>60</item>
+    </integer-array>
 
     <string name="snooze">Snooze</string>
     <string name="remove">Remove</string>
