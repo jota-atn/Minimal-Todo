@@ -159,16 +159,12 @@ public class ReminderFragment extends AppDefaultFragment {
     }
 
     private int valueFromSpinner() {
-        switch (mSnoozeSpinner.getSelectedItemPosition()) {
-            case 0:
-                return 10;
-            case 1:
-                return 30;
-            case 2:
-                return 60;
-            default:
-                return 0;
+        int[] snoozeMinutes = getResources().getIntArray(R.array.snooze_minutes);
+        int position = mSnoozeSpinner.getSelectedItemPosition();
+        if (position < 0 || position >= snoozeMinutes.length) {
+            return 0;
         }
+        return snoozeMinutes[position];
     }
 
     @Override
