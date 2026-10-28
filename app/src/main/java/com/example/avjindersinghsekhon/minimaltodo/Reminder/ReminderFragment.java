@@ -144,7 +144,7 @@ public class ReminderFragment extends AppDefaultFragment {
     private void changeOccurred() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MainFragment.SHARED_PREF_DATA_SET_CHANGED, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(MainFragment.CHANGE_OCCURED, true);
+        editor.putBoolean(MainFragment.CHANGE_OCCURRED, true);
 //        editor.commit();
         editor.apply();
     }

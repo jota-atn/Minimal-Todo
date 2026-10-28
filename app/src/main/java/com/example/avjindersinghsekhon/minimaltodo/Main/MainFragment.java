@@ -71,7 +71,7 @@ public class MainFragment extends AppDefaultFragment {
     public ItemTouchHelper itemTouchHelper;
     private CustomRecyclerScrollViewListener customRecyclerScrollViewListener;
     public static final String SHARED_PREF_DATA_SET_CHANGED = "com.avjindersekhon.datasetchanged";
-    public static final String CHANGE_OCCURED = "com.avjinder.changeoccured";
+    public static final String CHANGE_OCCURRED = "com.avjinder.changeoccured";
     private int mTheme = -1;
     private String theme = "name_of_the_theme";
     public static final String THEME_PREFERENCES = "com.avjindersekhon.themepref";
@@ -109,7 +109,7 @@ public class MainFragment extends AppDefaultFragment {
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_DATA_SET_CHANGED, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(CHANGE_OCCURED, false);
+        editor.putBoolean(CHANGE_OCCURRED, false);
         editor.apply();
 
         toDoFileStore = new ToDoFileStore(getContext(), FILENAME);
@@ -277,7 +277,7 @@ public class MainFragment extends AppDefaultFragment {
         app = (AnalyticsApplication) getActivity().getApplication();
         super.onStart();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_DATA_SET_CHANGED, MODE_PRIVATE);
-        if (sharedPreferences.getBoolean(CHANGE_OCCURED, false)) {
+        if (sharedPreferences.getBoolean(CHANGE_OCCURRED, false)) {
 
             mToDoItemsArrayList = getLocallyStoredData(toDoFileStore);
             adapter = new MainFragment.BasicListAdapter(mToDoItemsArrayList);
@@ -285,7 +285,7 @@ public class MainFragment extends AppDefaultFragment {
             setAlarms();
 
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(CHANGE_OCCURED, false);
+            editor.putBoolean(CHANGE_OCCURRED, false);
 //            editor.commit();
             editor.apply();
 
