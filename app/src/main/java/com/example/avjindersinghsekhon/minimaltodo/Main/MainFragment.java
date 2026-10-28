@@ -348,17 +348,13 @@ public class MainFragment extends AppDefaultFragment {
         }
     }
 
-    private AlarmManager getAlarmManager() {
-        return (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
-    }
-
     private boolean doesPendingIntentExist(Intent i, int requestCode) {
         PendingIntent pi = PendingIntent.getService(getContext(), requestCode, i, PendingIntent.FLAG_NO_CREATE);
         return pi != null;
     }
 
     private void createAlarm(Intent i, int requestCode, long timeInMillis) {
-        AlarmManager am = getAlarmManager();
+        AlarmManager am = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
         PendingIntent pi = PendingIntent.getService(getContext(), requestCode, i, PendingIntent.FLAG_UPDATE_CURRENT);
         am.set(AlarmManager.RTC_WAKEUP, timeInMillis, pi);
 //        Log.d("OskarSchindler", "createAlarm "+requestCode+" time: "+timeInMillis+" PI "+pi.toString());
@@ -368,7 +364,8 @@ public class MainFragment extends AppDefaultFragment {
         if (doesPendingIntentExist(i, requestCode)) {
             PendingIntent pi = PendingIntent.getService(getContext(), requestCode, i, PendingIntent.FLAG_NO_CREATE);
             pi.cancel();
-            getAlarmManager().cancel(pi);
+            AlarmManager am = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+            am.cancel(pi);
             Log.d("OskarSchindler", "PI Cancelled " + doesPendingIntentExist(i, requestCode));
         }
     }
